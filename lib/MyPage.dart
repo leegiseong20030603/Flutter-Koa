@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -10,9 +11,18 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: Text(
-            "MyPage",
-            style: TextStyle(fontSize: 50),
+          child: Column(
+            children: <Widget>[
+              RaisedButton(
+                child: Text("로그아웃"),
+                onPressed: () async {
+                  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+                  sharedPreferences.remove("User_ID");
+                  sharedPreferences.remove("User_PW");
+                  Navigator.of(context).pushReplacementNamed("/LoginPage");
+                },
+              )
+            ],
           ),
       ),
     );

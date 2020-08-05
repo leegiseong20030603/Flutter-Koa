@@ -17,12 +17,12 @@ class _IntroPageState extends State<IntroPage> {
   String URL = "http://leegiseong.kro.kr/phps/Login.php";
   String User_ID, User_PW;
 
-  Future<bool> _Shared_User() async {
+  _Shared_User() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    User_ID = User_ID == null ? sharedPreferences.getString("User_ID") : "";
-    User_PW = User_PW == null ? sharedPreferences.getString("User_PW") : "";
+    User_ID = User_ID == null ? "" : sharedPreferences.getString("User_ID");
+    User_PW = User_PW == null ? "" : sharedPreferences.getString("User_PW");
     if(User_ID.isEmpty && User_PW.isEmpty){
-      return false;
+      Timer(Duration(seconds: 3), () => Navigator.of(context).pushReplacementNamed("/LoginPage"));
     }else{
       print("###########################" + "\n" + "User_ID : " + User_ID + "\n" + "User_PW : " + User_PW + "\n" + "###########################");
       Map<String, String> Login_map = {
@@ -41,19 +41,20 @@ class _IntroPageState extends State<IntroPage> {
       HttpResponse httpResponse = HttpResponse.fromJson(json.decode(http_post.body));
       bool response_ = httpResponse.Response;
       print("response 값 : " + response_.toString());
-      return response_;
+      setState(() {
+        if(response_){
+          Timer(Duration(seconds: 3), () => Navigator.of(context).pushReplacementNamed("/Main_MenuPage"));
+        }else{
+          Timer(Duration(seconds: 3), () => Navigator.of(context).pushReplacementNamed("/LoginPage"));
+        }
+      });
     }
   }
 
   @override
   void initState() {
     super.initState();
-    bool response = _Shared_User() as bool;
-    if(response){
-      Timer(Duration(seconds: 3), () => Navigator.of(context).pushReplacementNamed("/Main_MenuPage"));
-    }else{
-      Timer(Duration(seconds: 3), () => Navigator.of(context).pushReplacementNamed("/LoginPage"));
-    }
+    _Shared_User();
   }
   
   @override
