@@ -1,5 +1,6 @@
 import 'package:exmaple/Intro.dart';
 import 'package:exmaple/Login.dart';
+import 'package:exmaple/Main_Menu.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
       home: IntroPage(),
       routes: <String, WidgetBuilder>{
         '/LoginPage' : (BuildContext context) => LoginPage(),
+        '/Main_MenuPage' : (BuildContext context) => Main_MenuPage(),
       },
     );
   }
