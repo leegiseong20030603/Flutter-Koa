@@ -72,20 +72,35 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text("로그인", style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),),
+                Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 30),),
                 TextFormField(
                   controller: ID_Controller,
                   decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                    ),
                     hintText: "아이디",
                     labelText: "아이디",
                   ),
                 ),
-                TextFormField(
+                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
+                TextField(
                   controller: PW_Controller,
                   decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                    ),
                     hintText: "비밀번호",
                     labelText: "비밀번호",
                   ),
                 ),
+                Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10),),
                 RaisedButton(
                   child: Text("로그인"),
                   onPressed: () {

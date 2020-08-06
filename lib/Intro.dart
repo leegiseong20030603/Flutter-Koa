@@ -19,11 +19,11 @@ class _IntroPageState extends State<IntroPage> {
 
   _Shared_User() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    User_ID = User_ID == null ? "" : sharedPreferences.getString("User_ID");
-    User_PW = User_PW == null ? "" : sharedPreferences.getString("User_PW");
-    if(User_ID.isEmpty && User_PW.isEmpty){
+    if(sharedPreferences.getString("User_ID") == null || sharedPreferences.getString("User_PW") == null){
       Timer(Duration(seconds: 3), () => Navigator.of(context).pushReplacementNamed("/LoginPage"));
     }else{
+      User_ID = sharedPreferences.getString("User_ID");
+      User_PW = sharedPreferences.getString("User_PW");
       print("###########################" + "\n" + "User_ID : " + User_ID + "\n" + "User_PW : " + User_PW + "\n" + "###########################");
       Map<String, String> Login_map = {
         "User_ID": User_ID,
@@ -36,7 +36,6 @@ class _IntroPageState extends State<IntroPage> {
           },
           body: Login_map,
           encoding: Encoding.getByName("utf-8"));
-
       print("####http_post.body : ${http_post.body}");
       HttpResponse httpResponse = HttpResponse.fromJson(json.decode(http_post.body));
       bool response_ = httpResponse.Response;
