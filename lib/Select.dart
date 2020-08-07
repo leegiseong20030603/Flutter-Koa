@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/all.dart';
 
 class SelectPage extends StatefulWidget {
   @override
@@ -6,13 +7,23 @@ class SelectPage extends StatefulWidget {
 }
 
 class _SelectPageState extends State<SelectPage> {
+
+  void loginButtonChecked() async {
+    try {
+      String authCode = await AuthCodeClient.instance.request();
+      AccessTokenResponse token = await AuthApi.instance.issueAccessToken(authCode);
+      AccessTokenStore.instance.toStore(token);
+    }catch (e){
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: Text(
-            "Select",
-            style: TextStyle(fontSize: 50),
+          child: RaisedButton(
+            onPressed: loginButtonChecked,
           )
       ),
     );

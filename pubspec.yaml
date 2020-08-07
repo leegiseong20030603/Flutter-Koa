@@ -33,6 +33,9 @@ dependencies:
   toast: ^0.1.5
   back_button_interceptor: ^4.3.0
   shared_preferences: ^0.5.8
+  custom_radio_grouped_button: ^1.0.5
+  kakao_flutter_sdk: ^0.4.2
+  notifier: ^1.0.2
 
 dev_dependencies:
   flutter_test:

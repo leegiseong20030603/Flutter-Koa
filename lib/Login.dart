@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text("로그인", style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),),
-                      Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 30),),
+                      Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 25),),
                       TextFormField(
                         controller: ID_Controller,
                         decoration: InputDecoration(
@@ -151,9 +151,9 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ),
-                            Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0),),
+                            Padding(padding: EdgeInsets.fromLTRB(0, 0, 6, 0),),
                             Text("or"),
-                            Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0),),
+                            Padding(padding: EdgeInsets.fromLTRB(6, 0, 0, 0),),
                             SizedBox(
                               height: 1,
                               width: 110,
