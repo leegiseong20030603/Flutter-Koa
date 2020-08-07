@@ -68,111 +68,129 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(50),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("로그인", style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),),
-                Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 30),),
-                TextFormField(
-                  controller: ID_Controller,
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
-                    ),
-                    hintText: "아이디",
-                    labelText: "아이디",
-                  ),
-                ),
-                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
-                TextField(
-                  controller: PW_Controller,
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
-                    ),
-                    hintText: "비밀번호",
-                    labelText: "비밀번호",
-                  ),
-                ),
-                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
-                SizedBox(
-                  width: 300,
-                  height: 50,
-                  child: RaisedButton(
-                    color: Colors.white,
-                    child: Text("로그인"),
-                    onPressed: () {
-                      if(ID_Controller.value.text.isEmpty){
-                        Toast.show("아이디를 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
-                      }else if(PW_Controller.value.text.isEmpty){
-                        Toast.show("비밀번호를 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
-                      }else if(PW_Controller.value.text.length < 5){
-                        Toast.show("비밀번호를 6자이상 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
-                      }else{
-                        User_ID = ID_Controller.value.text;
-                        User_PW = PW_Controller.value.text;
-                        httpResponse();
-                      }
-                    },
-                  ),
-                ),
-                Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 10),),
-                SizedBox(
-                  height: 25,
-                  width: 300,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+          padding: EdgeInsets.all(5),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey, width: 1),
+            ),
+            child: Padding(
+                padding: const EdgeInsets.all(50),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
+                      Text("로그인", style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),),
+                      Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 30),),
+                      TextFormField(
+                        controller: ID_Controller,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                          ),
+                          hintText: "아이디",
+                          labelText: "아이디",
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
+                      TextField(
+                        controller: PW_Controller,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                          ),
+                          hintText: "비밀번호",
+                          labelText: "비밀번호",
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
                       SizedBox(
-                        height: 1,
-                        width: 110,
+                        width: 300,
+                        height: 50,
                         child: Container(
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey, width: 1),
+                            border: Border.all(color: Colors.lightBlueAccent, width: 2),
+                          ),
+                          child: RaisedButton(
+                            color: Colors.white,
+                            child: Text("로그인"),
+                            onPressed: () {
+                              if(ID_Controller.value.text.isEmpty){
+                                Toast.show("아이디를 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+                              }else if(PW_Controller.value.text.isEmpty){
+                                Toast.show("비밀번호를 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+                              }else if(PW_Controller.value.text.length < 5){
+                                Toast.show("비밀번호를 6자이상 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+                              }else{
+                                User_ID = ID_Controller.value.text;
+                                User_PW = PW_Controller.value.text;
+                                httpResponse();
+                              }
+                            },
                           ),
                         ),
                       ),
-                      Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0),),
-                      Text("or"),
-                      Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0),),
+                      Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 10),),
                       SizedBox(
-                        height: 1,
-                        width: 110,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey, width: 1),
-                          ),
+                        height: 25,
+                        width: 300,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 1,
+                              width: 110,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey, width: 1),
+                                ),
+                              ),
+                            ),
+                            Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0),),
+                            Text("or"),
+                            Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0),),
+                            SizedBox(
+                              height: 1,
+                              width: 110,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey, width: 1),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 5),),
+                      SizedBox(
+                        width: 300,
+                        height: 50,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.lightBlueAccent, width: 2)
+                          ),
+                          child: RaisedButton(
+                            color: Colors.white,
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => RegisterPage(),
+                              ));
+                            },
+                            child: Text("회원가입"),
+                          ),
+                        )
+                      )
                     ],
                   ),
-                ),
-                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 5),),
-                SizedBox(
-                  width: 300,
-                  height: 50,
-                  child: RaisedButton(
-                    color: Colors.white,
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => RegisterPage(),
-                      ));
-                    },
-                    child: Text("회원가입"),
-                  ),
                 )
-              ],
             ),
-          )
-        ),
+          ),
+        )
       ),
     );
   }
