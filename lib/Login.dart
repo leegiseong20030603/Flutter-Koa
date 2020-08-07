@@ -3,6 +3,8 @@ import 'dart:developer' as log;
 
 import 'package:exmaple/HttpResponse.dart';
 import 'package:exmaple/Main_Menu.dart';
+import 'package:exmaple/Register.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:toast/toast.dart';
@@ -100,22 +102,72 @@ class _LoginPageState extends State<LoginPage> {
                     labelText: "비밀번호",
                   ),
                 ),
-                Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10),),
-                RaisedButton(
-                  child: Text("로그인"),
-                  onPressed: () {
-                    if(ID_Controller.value.text.isEmpty){
-                      Toast.show("아이디를 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
-                    }else if(PW_Controller.value.text.isEmpty){
-                      Toast.show("비밀번호를 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
-                    }else if(PW_Controller.value.text.length < 5){
-                      Toast.show("비밀번호를 6자이상 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
-                    }else{
-                      User_ID = ID_Controller.value.text;
-                      User_PW = PW_Controller.value.text;
-                      httpResponse();
-                    }
-                  },
+                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
+                SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: RaisedButton(
+                    color: Colors.white,
+                    child: Text("로그인"),
+                    onPressed: () {
+                      if(ID_Controller.value.text.isEmpty){
+                        Toast.show("아이디를 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+                      }else if(PW_Controller.value.text.isEmpty){
+                        Toast.show("비밀번호를 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+                      }else if(PW_Controller.value.text.length < 5){
+                        Toast.show("비밀번호를 6자이상 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+                      }else{
+                        User_ID = ID_Controller.value.text;
+                        User_PW = PW_Controller.value.text;
+                        httpResponse();
+                      }
+                    },
+                  ),
+                ),
+                Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 10),),
+                SizedBox(
+                  height: 25,
+                  width: 300,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 1,
+                        width: 110,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey, width: 1),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0),),
+                      Text("or"),
+                      Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0),),
+                      SizedBox(
+                        height: 1,
+                        width: 110,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey, width: 1),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 5),),
+                SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: RaisedButton(
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => RegisterPage(),
+                      ));
+                    },
+                    child: Text("회원가입"),
+                  ),
                 )
               ],
             ),
