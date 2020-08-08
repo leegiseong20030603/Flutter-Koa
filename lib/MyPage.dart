@@ -12,6 +12,7 @@ class _MyPageState extends State<MyPage> {
     return Scaffold(
       body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               RaisedButton(
                 child: Text("로그아웃"),

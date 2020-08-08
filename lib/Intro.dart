@@ -24,7 +24,7 @@ class _IntroPageState extends State<IntroPage> {
     }else{
       User_ID = sharedPreferences.getString("User_ID");
       User_PW = sharedPreferences.getString("User_PW");
-      print("###########################" + "\n" + "User_ID : " + User_ID + "\n" + "User_PW : " + User_PW + "\n" + "###########################");
+      print("###########Login###########" + "\n" + "User_ID : " + User_ID + "\n" + "User_PW : " + User_PW + "\n" + "###########################");
       Map<String, String> Login_map = {
         "User_ID": User_ID,
         "User_PW": User_PW,
@@ -55,7 +55,7 @@ class _IntroPageState extends State<IntroPage> {
     super.initState();
     _Shared_User();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
