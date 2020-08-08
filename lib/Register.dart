@@ -38,7 +38,15 @@ class _RegisterPageState extends State<RegisterPage> {
       encoding: Encoding.getByName("utf-8"),);
     final response = HttpResponse.fromJson(json.decode(http_post.body));
     if(response.Response){
-      Scaffold.of(context).showSnackBar(SnackBar(action: SnackBarAction(onPressed: () { Navigator.of(context).pop(); }, label: "회원가입 성공",), content: Text("회원가입에 성공하셨습니다."),));
+      Scaffold.of(context).showSnackBar(SnackBar(
+        action: SnackBarAction(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          label: "회원가입 성공",
+        ),
+        content: Text("회원가입에 성공하셨습니다."),
+      ));
     }else{
       Toast.show("이미 등록되어있는 아이디입니다.", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     }
@@ -141,8 +149,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
                 TextField(
+                  obscureText: true, // 안보이는 비밀번호
                   controller: pw_Controller,
                   maxLines: 1,
+                  keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                     labelText: "비밀번호",
                     hintText: "비밀번호",
