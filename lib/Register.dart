@@ -16,7 +16,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   TextEditingController id_Controller, pw_Controller, pw_Check_Controller, name_Controller, email_Controller, birthday_Controller;
   String id, pw, name, email, birthday, type, agree, agree_1, agree_2, URL;
-  bool bool_agree_1, bool_agree_2;
+  bool bool_agree_1, bool_agree_2, all_agree;
 
   Future<HttpResponse> Register() async{
     Map<String, String> Register_Map = {
@@ -59,6 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
     agree = "";
     bool_agree_1 = false;
     bool_agree_2 = false;
+    all_agree = false;
     id_Controller = TextEditingController();
     pw_Controller = TextEditingController();
     pw_Check_Controller = TextEditingController();
@@ -265,26 +266,58 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
-                CheckboxListTile(
-                  value: bool_agree_1,
-                  title: Text("개인정보 수집 동의"),
-                  activeColor: Colors.lightBlueAccent,
-                  checkColor: Colors.white,
-                  onChanged: (bool value) {
-                    bool_agree_1 = value;
-                    agree_1 = bool_agree_1 == false ? "" : "개인정보 수집 동의\n";
-                  },
+                SizedBox(
+                  width: 260,
+                  height: 50,
+                  child: CheckboxListTile(
+                    value: bool_agree_1,
+                    title: Text("개인정보 수집 동의"),
+                    activeColor: Colors.lightBlueAccent,
+                    checkColor: Colors.white,
+                    onChanged: (bool value) {
+                      setState(() {
+                        bool_agree_1 = value;
+                        agree_1 = bool_agree_1 == false ? "" : "개인정보 수집 동의\n";
+
+                      });
+                    },
+                  ),
                 ),
-                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
-                CheckboxListTile(
-                  value: bool_agree_2,
-                  title: Text("사용자 정보 마케팅 동의"),
-                  activeColor: Colors.lightBlueAccent,
-                  checkColor: Colors.white,
-                  onChanged: (bool value) {
-                    bool_agree_2 = value;
-                    agree_2 = bool_agree_2 == false ? "" : "사용자 정보 마케팅 동의";
-                  },
+                SizedBox(
+                  height: 50,
+                  width: 260,
+                  child: CheckboxListTile(
+                    value: bool_agree_2,
+                    title: Text("사용자 정보 마케팅 동의"),
+                    activeColor: Colors.lightBlueAccent,
+                    checkColor: Colors.white,
+                    onChanged: (bool value) {
+                      setState(() {
+                        bool_agree_2 = value;
+                        agree_2 = bool_agree_2 == false ? "" : "사용자 정보 마케팅 동의";
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 50,
+                  width: 260,
+                  child: CheckboxListTile(
+                    value: all_agree,
+                    title: Text("모두 동의"),
+                    activeColor: Colors.lightBlueAccent,
+                    checkColor: Colors.white,
+                    onChanged: (bool value) {
+                      setState(() {
+                        bool_agree_1 = value;
+                        bool_agree_2 = value;
+                        all_agree = value;
+                        agree_1 = bool_agree_1 == false ? "" : "개인정보 수집 동의\n";
+                        agree_2 = bool_agree_2 == false ? "" : "사용자 정보 마케팅 동의";
+                        print(agree_1);
+                      });
+                    },
+                  ),
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
                 SizedBox(
