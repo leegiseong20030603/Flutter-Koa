@@ -38,7 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
       encoding: Encoding.getByName("utf-8"),);
     final response = HttpResponse.fromJson(json.decode(http_post.body));
     if(response.Response){
-      Navigator.of(context).pop();
+      Scaffold.of(context).showSnackBar(SnackBar(action: SnackBarAction(onPressed: () { Navigator.of(context).pop(); }, label: "회원가입 성공",), content: Text("회원가입에 성공하셨습니다."),));
     }else{
       Toast.show("이미 등록되어있는 아이디입니다.", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     }
