@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:exmaple/HttpResponse.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:toast/toast.dart';
@@ -15,8 +14,9 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
 
-  TextEditingController id_Controller, pw_Controller, name_Controller, email_Controller, birthday_Controller;
-  String id, pw, name, email, birthday, type, agree, URL;
+  TextEditingController id_Controller, pw_Controller, pw_Check_Controller, name_Controller, email_Controller, birthday_Controller;
+  String id, pw, name, email, birthday, type, agree, agree_1, agree_2, URL;
+  bool bool_agree_1, bool_agree_2;
 
   Future<HttpResponse> Register() async{
     Map<String, String> Register_Map = {
@@ -56,8 +56,12 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     super.initState();
     URL = "http://leegiseong.kro.kr/phps/Register.php";
+    agree = "";
+    bool_agree_1 = false;
+    bool_agree_2 = false;
     id_Controller = TextEditingController();
     pw_Controller = TextEditingController();
+    pw_Check_Controller = TextEditingController();
     name_Controller = TextEditingController();
     email_Controller = TextEditingController();
     birthday_Controller = TextEditingController();
@@ -77,9 +81,9 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(50),
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(50),
             child: Column(
               children: <Widget>[
                 Text("회원가입",
@@ -94,7 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: <Widget>[
                       Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0),),
                       Text("사용자 유형", style: TextStyle(fontSize: 20),),
-                      CustomRadioButton(
+                      CustomRadioButton( /// Choice User Type
                         horizontal: true,
                         width: 150,
                         defaultSelected: "normal",
@@ -127,7 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
-                TextField(
+                TextField( /// ID TextField
                   controller: id_Controller,
                   maxLines: 1,
                   decoration: InputDecoration(
@@ -148,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
-                TextField(
+                TextField( /// Password TextField
                   obscureText: true, // 안보이는 비밀번호
                   controller: pw_Controller,
                   maxLines: 1,
@@ -171,7 +175,30 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
-                TextField(
+                TextField( /// Password Check TextField
+                  obscureText: true, // 안보이는 비밀번호
+                  controller: pw_Check_Controller,
+                  maxLines: 1,
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecoration(
+                    labelText: "비밀번호 확인",
+                    hintText: "비밀번호 확인",
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Colors.lightBlueAccent,
+                            width: 2
+                        )
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Colors.lightBlueAccent,
+                            width: 2
+                        )
+                    ),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
+                TextField( /// Name TextField
                   controller: name_Controller,
                   maxLines: 1,
                   decoration: InputDecoration(
@@ -192,7 +219,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
-                TextField(
+                TextField( /// Email TextField
                   keyboardType: TextInputType.emailAddress,
                   controller: email_Controller,
                   maxLines: 1,
@@ -214,7 +241,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
-                TextField(
+                TextField( /// Birthday TextField
                   controller: birthday_Controller,
                   keyboardType: TextInputType.number,
                   maxLines: 1,
@@ -237,9 +264,40 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-                Padding(padding: EdgeInsets.fromLTRB(0, 8, 0, 0),),
-                Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 5),),
+                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
+                CheckboxListTile(
+                  value: bool_agree_1,
+                  title: Text("개인정보 수집 동의"),
+                  activeColor: Colors.lightBlueAccent,
+                  checkColor: Colors.white,
+                  onChanged: (bool value) {
+                    bool_agree_1 = value;
+                    agree_1 = bool_agree_1 == false ? "" : "개인정보 수집 동의\n";
+                  },
+                ),
+                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
+                CheckboxListTile(
+                  value: bool_agree_2,
+                  title: Text("사용자 정보 마케팅 동의"),
+                  activeColor: Colors.lightBlueAccent,
+                  checkColor: Colors.white,
+                  onChanged: (bool value) {
+                    bool_agree_2 = value;
+                    agree_2 = bool_agree_2 == false ? "" : "사용자 정보 마케팅 동의";
+                  },
+                ),
+                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
                 SizedBox(
+                  width: 300,
+                  height: 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 2)
+                    ),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
+                SizedBox( /// Register RaisedButton
                   height: 50,
                   width: 300,
                   child: Container(
@@ -251,6 +309,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           Toast.show("아이디를 넣어주세요.", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                         }else if(pw_Controller.value.text.isEmpty){
                           Toast.show("비밀번호를 넣어주세요.", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                        }else if(pw_Check_Controller.value.text.isEmpty) {
+                          Toast.show("비밀번호 확인을 넣어주세요.", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                         }else if(name_Controller.value.text.isEmpty){
                           Toast.show("이름을 넣어주세요.", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                         }else if(email_Controller.value.text.isEmpty){
@@ -261,11 +321,15 @@ class _RegisterPageState extends State<RegisterPage> {
                           Toast.show("개인정보 수집동의를 체크해주세요.", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                         }else if(pw_Controller.value.text.length < 6){
                           Toast.show("비밀번호를 6자리 이상으로해주세요.", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                        }else if (identical(pw_Controller.value.text, pw_Check_Controller.value.text)) {
+                          Toast.show("비밀번호와 비밀번호 확인이 일치하지 않습니다.", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                         }else if(!RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?").hasMatch(email)) {
                           Toast.show("이메일 형식을 맞추어주세요.", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                         }else if(birthday.length > 8){
                           Toast.show("생년월일 8자리를 입력해주세요.", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                         }else{
+                          agree += agree_1 + agree_2;
+                          print("동의약관 : " + agree);
                           Register();
                         }
                       },
@@ -277,7 +341,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 )
               ],
             ),
-          ),
+          )
         ),
       )
     );
