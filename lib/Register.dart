@@ -77,6 +77,48 @@ class _RegisterPageState extends State<RegisterPage> {
                 Text("회원가입",
                   style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold,),),
                 Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 20),),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.lightBlueAccent, width: 2),
+                    //    borderRadius: BorderRadius.all(Radius.circular(30)),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0),),
+                      Text("사용자 유형", style: TextStyle(fontSize: 20),),
+                      CustomRadioButton(
+                        horizontal: true,
+                        width: 150,
+                        defaultSelected: "normal",
+                        enableButtonWrap: false,
+                        unSelectedColor: Theme.of(context).canvasColor,
+                        selectedColor: Theme.of(context).accentColor,
+                        buttonLables: [
+                          "일반사용자",
+                          "학생",
+                          "학부모",
+                          "선생님",
+                        ],
+                        buttonValues: [
+                          "normal",
+                          "student",
+                          "parent",
+                          "teacher",
+                        ],
+                        buttonTextStyle: ButtonTextStyle(
+                          selectedColor: Colors.white,
+                          unSelectedColor: Colors.black,
+                          textStyle: TextStyle(fontSize: 16),
+                        ),
+                        radioButtonValue: (value) {
+                          type = value;
+                          print(type);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
                 TextField(
                   controller: id_Controller,
                   maxLines: 1,
@@ -186,47 +228,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(0, 8, 0, 0),),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.lightBlueAccent, width: 2),
-                //    borderRadius: BorderRadius.all(Radius.circular(30)),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0),),
-                      Text("사용자 유형", style: TextStyle(fontSize: 20),),
-                      CustomRadioButton(
-                        horizontal: true,
-                        width: 150,
-                        defaultSelected: "normal",
-                        enableButtonWrap: false,
-                        unSelectedColor: Theme.of(context).canvasColor,
-                        selectedColor: Theme.of(context).accentColor,
-                        buttonLables: [
-                          "일반사용자",
-                          "학생",
-                          "학부모",
-                          "선생님",
-                        ],
-                        buttonValues: [
-                          "normal",
-                          "student",
-                          "parent",
-                          "teacher",
-                        ],
-                        buttonTextStyle: ButtonTextStyle(
-                          selectedColor: Colors.white,
-                          unSelectedColor: Colors.black,
-                          textStyle: TextStyle(fontSize: 16),
-                        ),
-                        radioButtonValue: (value) {
-                          type = value;
-                          print(type);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
                 Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 5),),
                 SizedBox(
                   height: 50,
