@@ -14,14 +14,23 @@ class _MyPageState extends State<MyPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              RaisedButton(
-                child: Text("로그아웃"),
-                onPressed: () async {
-                  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-                  sharedPreferences.remove("User_ID");
-                  sharedPreferences.remove("User_PW");
-                  Navigator.of(context).pushReplacementNamed("/LoginPage");
-                },
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.lightBlueAccent, width: 2),
+                  ),
+                  child: RaisedButton(
+                    child: Text("로그아웃"),
+                    onPressed: () async {
+                      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+                      sharedPreferences.remove("User_ID");
+                      sharedPreferences.remove("User_PW");
+                      Navigator.of(context).pushReplacementNamed("/LoginPage");
+                    },
+                  ),
+                ),
               )
             ],
           ),
