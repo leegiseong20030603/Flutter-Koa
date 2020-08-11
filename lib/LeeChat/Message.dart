@@ -8,6 +8,7 @@ class Message{
   User user;
 
   Map<String, dynamic> toJson() => {
+    'author' : user,
     'id' : id,
     'name' : name,
     'message' : message,
@@ -16,8 +17,9 @@ class Message{
   };
 
   Message.fromJson(Map<String,dynamic> json){
-    id = User.fromjson(json['id']) as String;
-    name = User.fromjson(json['name']) as String;
+    user = User.fromjson(json['user']);
+    id = json['id'];
+    name = json['name'];
     message = json['message'];
     time = json['time'];
     direction = json['direction'];

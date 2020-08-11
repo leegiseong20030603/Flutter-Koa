@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:exmaple/HttpResponse.dart';
 import 'package:exmaple/Login.dart';
+import 'package:exmaple/User.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +17,8 @@ class _IntroPageState extends State<IntroPage> {
 
   String URL = "http://leegiseong.kro.kr/phps/Login.php";
   String User_ID, User_PW;
+  HttpResponse httpResponse;
+  User user;
 
   _Shared_User() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -37,11 +40,20 @@ class _IntroPageState extends State<IntroPage> {
           body: Login_map,
           encoding: Encoding.getByName("utf-8"));
       print("####http_post.body : ${http_post.body}");
-      HttpResponse httpResponse = HttpResponse.fromJson(json.decode(http_post.body));
+      httpResponse = HttpResponse.fromJson(json.decode(http_post.body));
       bool response_ = httpResponse.Response;
       print("response 값 : " + response_.toString());
       setState(() {
         if(response_){
+          user = User(
+              httpResponse.User_ID,
+              httpResponse.User_PW,
+              httpResponse.User_Name,
+              httpResponse.User_Email,
+              httpResponse.User_Birthday,
+              httpResponse.User_Type,
+              httpResponse.User_Image,
+              httpResponse.User_Agree);
           Timer(Duration(seconds: 3), () => Navigator.of(context).pushReplacementNamed("/Main_MenuPage"));
         }else{
           Timer(Duration(seconds: 3), () => Navigator.of(context).pushReplacementNamed("/LoginPage"));

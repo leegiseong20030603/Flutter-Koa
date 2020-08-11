@@ -1,9 +1,19 @@
 import 'dart:convert';
 
 class User{
-  String id, pw, name, email, birthday, type, image;
+  String id, pw, name, email, birthday, type, image, agree;
 
-  User(this.id, this.pw, this.name, this.email, this.birthday, this.type);
+  static final User _Instance = User._internal();
+  static User get instace => _Instance;
+  User(this.id, this.pw, this.name, this.email, this.birthday, this.type, this.image, this.agree);
+
+  Instance(){ // Instance
+    return _Instance;
+  }
+
+  User._internal(){ // 초기화
+
+  }
 
   Map<String, dynamic> toJson() => {
     'id' : id,

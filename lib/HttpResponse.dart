@@ -6,6 +6,7 @@ class HttpResponse{
   String User_Email;
   String User_Birthday;
   String User_Type;
+  String User_Image;
   String User_Agree;
 
   HttpResponse.fromJson(Map<String, dynamic> json){
@@ -15,6 +16,7 @@ class HttpResponse{
     User_Name = json['User_Name'];
     User_Email = json['User_Email'];
     User_Birthday = json['User_Birthday'];
+    User_Image = json['User_Image'];
     User_Type = json['User_Type'];
   }
 }
