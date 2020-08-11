@@ -82,137 +82,162 @@ class _LoginPageState extends State<LoginPage> {
     PW_Controller.dispose();
     NetWorkState.cancel();
   }
+
+  Future<bool> _onBackPressed() {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("앱을 종료하시곘습니까??"),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("넵"),
+            onPressed: () => Navigator.pop(context, true),
+          ),
+          FlatButton(
+            child: Text("아니욥"),
+            onPressed: () => Navigator.pop(context, false),
+          ),
+        ],
+      ),
+    ) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Form(
-        key: key,
-        child: Center(
-            child: Padding(
-              padding: EdgeInsets.all(5),
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey, width: 1),
-                ),
+
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+          body: Form(
+            key: key,
+            child: Center(
                 child: Padding(
-                    padding: const EdgeInsets.all(50),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("로그인", style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),),
-                          Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 25),),
-                          TextFormField(
-                            controller: ID_Controller,
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                  padding: EdgeInsets.all(5),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey, width: 1),
+                    ),
+                    child: Padding(
+                        padding: const EdgeInsets.all(50),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text("로그인", style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),),
+                              Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 25),),
+                              TextFormField(
+                                controller: ID_Controller,
+                                decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                                  ),
+                                  hintText: "아이디",
+                                  labelText: "아이디",
+                                ),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                              Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
+                              TextField(
+                                controller: PW_Controller,
+                                decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
+                                  ),
+                                  hintText: "비밀번호",
+                                  labelText: "비밀번호",
+                                ),
                               ),
-                              hintText: "아이디",
-                              labelText: "아이디",
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
-                          TextField(
-                            controller: PW_Controller,
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),
-                              ),
-                              hintText: "비밀번호",
-                              labelText: "비밀번호",
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
-                          SizedBox(
-                            width: 300,
-                            height: 50,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.lightBlueAccent, width: 2),
-                              ),
-                              child: RaisedButton(
-                                color: Colors.white,
-                                child: Text("로그인"),
-                                onPressed: () {
-                                  if(ID_Controller.value.text.isEmpty){
-                                    Toast.show("아이디를 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                                  }else if(PW_Controller.value.text.isEmpty){
-                                    Toast.show("비밀번호를 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                                  }else if(PW_Controller.value.text.length < 5){
-                                    Toast.show("비밀번호를 6자이상 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                                  }else{
-                                    User_ID = ID_Controller.value.text;
-                                    User_PW = PW_Controller.value.text;
-                                    Login();
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 10),),
-                          SizedBox(
-                            height: 25,
-                            width: 300,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                SizedBox(
-                                  height: 1,
-                                  width: 110,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey, width: 1),
-                                    ),
+                              Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
+                              SizedBox(
+                                width: 300,
+                                height: 50,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.lightBlueAccent, width: 2),
+                                  ),
+                                  child: RaisedButton(
+                                    color: Colors.white,
+                                    child: Text("로그인"),
+                                    onPressed: () {
+                                      if(ID_Controller.value.text.isEmpty){
+                                        Toast.show("아이디를 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                      }else if(PW_Controller.value.text.isEmpty){
+                                        Toast.show("비밀번호를 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                      }else if(PW_Controller.value.text.length < 5){
+                                        Toast.show("비밀번호를 6자이상 넣어주세요.",context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                      }else{
+                                        User_ID = ID_Controller.value.text;
+                                        User_PW = PW_Controller.value.text;
+                                        Login();
+                                      }
+                                    },
                                   ),
                                 ),
-                                Padding(padding: EdgeInsets.fromLTRB(0, 0, 6, 0),),
-                                Text("or"),
-                                Padding(padding: EdgeInsets.fromLTRB(6, 0, 0, 0),),
-                                SizedBox(
-                                  height: 1,
-                                  width: 110,
+                              ),
+                              Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 10),),
+                              SizedBox(
+                                height: 25,
+                                width: 300,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 1,
+                                      width: 110,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.grey, width: 1),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(padding: EdgeInsets.fromLTRB(0, 0, 6, 0),),
+                                    Text("or"),
+                                    Padding(padding: EdgeInsets.fromLTRB(6, 0, 0, 0),),
+                                    SizedBox(
+                                      height: 1,
+                                      width: 110,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.grey, width: 1),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 5),),
+                              SizedBox(
+                                  width: 300,
+                                  height: 50,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey, width: 1),
+                                        border: Border.all(color: Colors.lightBlueAccent, width: 2)
                                     ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 5),),
-                          SizedBox(
-                              width: 300,
-                              height: 50,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.lightBlueAccent, width: 2)
-                                ),
-                                child: RaisedButton(
-                                  color: Colors.white,
-                                  onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => RegisterPage(),
-                                    ));
-                                  },
-                                  child: Text("회원가입"),
-                                ),
+                                    child: RaisedButton(
+                                      color: Colors.white,
+                                      onPressed: () {
+                                        Navigator.push(context, MaterialPageRoute(
+                                          builder: (context) => RegisterPage(),
+                                        ));
+                                      },
+                                      child: Text("회원가입"),
+                                    ),
+                                  )
                               )
-                          )
-                        ],
-                      ),
-                    )
-                ),
-              ),
-            )
-        ),
+                            ],
+                          ),
+                        )
+                    ),
+                  ),
+                )
+            ),
+          )
       )
     );
   }

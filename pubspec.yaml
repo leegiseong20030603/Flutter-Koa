@@ -36,6 +36,7 @@ dependencies:
   shared_preferences: ^0.5.8
   custom_radio_grouped_button: ^1.0.5
   kakao_flutter_sdk: ^0.4.2
+  web_socket_channel: ^1.1.0
 
 dev_dependencies:
   flutter_test:

@@ -41,14 +41,16 @@ class _RegisterPageState extends State<RegisterPage> {
       encoding: Encoding.getByName("utf-8"),);
     final response = HttpResponse.fromJson(json.decode(http_post.body));
     if(response.Response){
-      Scaffold.of(key.currentContext).showSnackBar(SnackBar(
-        action: SnackBarAction(
-          onPressed: () {
-            Navigator.of(key.currentContext).pop();
-          },
-          label: "완료",
-        ),
-        content: Text("회원가입에 성공하셨습니다."),
+      showDialog(context: context, builder: (context) => AlertDialog(
+        title: Text("회원가입에 성공하셨습니다."),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("확인"),
+            onPressed: () {
+                Navigator.pop(key.currentContext);
+            },
+          ),
+        ],
       ));
     }else{
       Toast.show("이미 등록되어있는 아이디입니다.", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
@@ -85,6 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
     name_Controller.dispose();
     email_Controller.dispose();
     birthday_Controller.dispose();
+    id_Focus.dispose();
   }
 
   @override
