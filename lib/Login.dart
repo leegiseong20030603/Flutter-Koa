@@ -145,6 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                               Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
                               TextField(
                                 controller: PW_Controller,
+                                keyboardType: TextInputType.visiblePassword,
                                 decoration: InputDecoration(
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2),

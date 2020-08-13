@@ -3,25 +3,24 @@ import 'dart:convert';
 import 'package:exmaple/User.dart';
 
 class Message{
-  String id, name, message, time;
+  String id, name, message, time, image;
   int direction;
-  User user;
 
   Map<String, dynamic> toJson() => {
-    'author' : user,
     'id' : id,
     'name' : name,
     'message' : message,
     'time' : time,
+    'image' : image,
     'direction' : direction,
   };
 
   Message.fromJson(Map<String,dynamic> json){
-    user = User.fromjson(json['user']);
     id = json['id'];
     name = json['name'];
     message = json['message'];
     time = json['time'];
+    image = json['image'];
     direction = json['direction'];
   }
 }

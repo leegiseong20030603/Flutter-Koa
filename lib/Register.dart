@@ -5,6 +5,7 @@ import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:exmaple/HttpResponse.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,7 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final key = GlobalKey<FormState>();
   FocusNode id_Focus;
   TextEditingController id_Controller, pw_Controller, pw_Check_Controller, name_Controller, email_Controller, birthday_Controller;
-  String id, pw, name, email, birthday, type, agree, agree_1, agree_2, URL;
+  String id, pw, name, email, birthday, type, agree, agree_1, agree_2, URL, creation_date;
   bool bool_agree_1, bool_agree_2, all_agree;
 
   Future<HttpResponse> Register() async{
@@ -29,6 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
       'User_Email' : email,
       'User_Birthday' : birthday,
       'User_Type' : type,
+      'User_Creation_Date' : creation_date,
       'User_Agree' : agree,
     };
     var http_post = await http.post(
@@ -47,7 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
           FlatButton(
             child: Text("확인"),
             onPressed: () {
-                Navigator.pop(key.currentContext);
+                Navigator.of(context).pop();
             },
           ),
         ],
@@ -150,6 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       focusNode: id_Focus,
                       controller: id_Controller,
                       maxLines: 1,
+                      maxLength: 20,
                       decoration: InputDecoration(
                         labelText: "아이디",
                         hintText: "아이디",
@@ -171,6 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextField( /// Password TextField
                       obscureText: true, // 안보이는 비밀번호
                       controller: pw_Controller,
+                      maxLength: 20,
                       maxLines: 1,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
@@ -195,6 +199,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       obscureText: true, // 안보이는 비밀번호
                       controller: pw_Check_Controller,
                       maxLines: 1,
+                      maxLength: 20,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
                         labelText: "비밀번호 확인",
@@ -217,6 +222,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextField( /// Name TextField
                       controller: name_Controller,
                       maxLines: 1,
+                      maxLength: 10,
                       decoration: InputDecoration(
                         labelText: "이름",
                         hintText: "이름",
@@ -239,6 +245,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       keyboardType: TextInputType.emailAddress,
                       controller: email_Controller,
                       maxLines: 1,
+                      maxLength: 50,
                       decoration: InputDecoration(
                         labelText: "이메일",
                         hintText: "이메일",
@@ -384,10 +391,12 @@ class _RegisterPageState extends State<RegisterPage> {
                               email = email_Controller.value.text;
                               birthday = birthday_Controller.value.text;
                               if(agree_2.isEmpty){
-                                agree += agree_1;
+                                agree += "나"+id +"은"+ agree_1 + "을 동의합니다.";
                               }else{
-                                agree = agree_1 + agree_2;
+                                agree = "나"+id +"은"+agree_1 + agree_2+ "을 동의합니다.";
                               }
+                              DateTime time = DateTime.now();
+                              creation_date = DateFormat('yyyy-MM-dd–kk:mm').format(time);
                               print("ID : " + id + "\n" +
                                   "PW : " + pw + "\n" +
                                   "Name : " + name + "\n" +

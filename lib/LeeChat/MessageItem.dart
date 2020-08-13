@@ -12,7 +12,6 @@ class MessageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
     Alignment alignment;
     if(message.direction == decoration.RIGHT){
       alignment = Alignment.topRight;
@@ -24,9 +23,13 @@ class MessageItem extends StatelessWidget {
     return Align(
       alignment: alignment,
       child: Chip(
+        backgroundColor: Colors.white,
         label: Text(message.message),
+        padding: EdgeInsets.all(4),
         avatar: CircleAvatar(
-          backgroundImage: NetworkImage(user.image),
+          backgroundColor: Colors.white,
+          radius: 100,
+          backgroundImage: NetworkImage(message.image),
         ),
       ),
     );
