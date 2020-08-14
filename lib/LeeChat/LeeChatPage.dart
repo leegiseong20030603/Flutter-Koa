@@ -22,10 +22,10 @@ class _LeeChatPageState extends State<LeeChatPage> {
   Config config = Config();
   List<Message> messages = [];
   TextEditingController _message_Controller = TextEditingController();
-  User user = User.instace;
+ // User user = User.instace;
 
   soket_Connect() async {
-    channel = IOWebSocketChannel.connect(config.conncet_URL+config.port);
+    channel = IOWebSocketChannel.connect(config.socket_conncet_URL);
     channel.stream.listen((event) {
       channel.sink.add("connect");
     });

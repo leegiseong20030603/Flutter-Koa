@@ -53,6 +53,7 @@ class _IntroPageState extends State<IntroPage> {
               httpResponse.User_Birthday,
               httpResponse.User_Type,
               httpResponse.User_Image,
+              httpResponse.User_Creation_Date,
               httpResponse.User_Agree);
           Timer(Duration(seconds: 3), () => Navigator.of(context).pushReplacementNamed("/Main_MenuPage"));
         }else{

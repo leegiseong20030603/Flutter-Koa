@@ -1,4 +1,3 @@
 class Config{
-  String conncet_URL = "http://leegiseong.kro.kr";
-  String port = ":5555";
+  String socket_conncet_URL = "ws://leegiseong.kro.kr:5555";
 }
