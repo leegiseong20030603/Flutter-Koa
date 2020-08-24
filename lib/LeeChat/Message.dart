@@ -6,6 +6,8 @@ class Message{
   String id, name, message, time, image;
   int direction;
 
+  Message({this.id, this.name, this.message, this.time, this.image, this.direction});
+
   Map<String, dynamic> toJson() => {
     'id' : id,
     'name' : name,

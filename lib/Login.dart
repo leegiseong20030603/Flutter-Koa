@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:developer' as log;
 
 import 'package:connectivity/connectivity.dart';
 import 'package:exmaple/HttpResponse.dart';
-import 'package:exmaple/Internet.dart';
-import 'package:exmaple/Main_Menu.dart';
 import 'package:exmaple/Register.dart';
 import 'package:exmaple/User.dart';
 import 'package:flushbar/flushbar.dart';
@@ -63,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
       PW_Controller.clear();
       Navigator.of(context).pushReplacementNamed("/Main_MenuPage");
     }else{
-      Toast.show("아이디 또는 비밀번호가 틀립니다.", context, gravity: Toast.CENTER);
+      Toast.show("아이디 또는 비밀번호가 틀리거나\n아이디가 존재하지 않습니다.", context, gravity: Toast.CENTER);
     }
   }
 
