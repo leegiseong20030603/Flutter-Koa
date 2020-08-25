@@ -75,36 +75,4 @@ class _MessageInputState extends State<MessageInput> {
       ),
     );
   }
-
-  Container _showBottomSheet(BuildContext context) {
-    return Container(
-      height: 300,
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.blue, width: 2.0),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: ListView(
-        children: <Widget>[
-          ListTile(title: Text('Bottom sheet')),
-          TextField(
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              icon: Icon(Icons.attach_money),
-              labelText: 'Enter an integer',
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: RaisedButton.icon(
-              icon: Icon(Icons.save),
-              label: Text('Save and close'),
-              onPressed: () => Navigator.pop(context),
-            ),
-          )
-        ],
-      ),
-    );
-  }
 }

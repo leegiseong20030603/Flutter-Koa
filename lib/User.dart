@@ -3,7 +3,15 @@ import 'dart:convert';
 class User{
   String id, pw, name, email, birthday, type, image, creation_date, agree;
 
-  User(this.id, this.pw, this.name, this.email, this.birthday, this.type, this.image,this.creation_date, this.agree);
+  static User sign;
+
+  User({this.id, this.pw, this.name, this.email, this.birthday, this.type, this.image,this.creation_date, this.agree}){
+    if(sign == null){
+      sign = this;
+    }
+  }
+
+  factory User.instance() => sign;
 
   Map<String, dynamic> toJson() => {
     'id' : id,

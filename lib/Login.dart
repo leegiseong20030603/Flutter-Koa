@@ -47,15 +47,15 @@ class _LoginPageState extends State<LoginPage> {
       sharedPreferences.setString("User_PW", PW_Controller.value.text);
       print(sharedPreferences.getString("User_ID") + "\n" + sharedPreferences.getString("User_PW"));
       user = User(
-          httpResponse.User_ID,
-          httpResponse.User_PW,
-          httpResponse.User_Name,
-          httpResponse.User_Email,
-          httpResponse.User_Birthday,
-          httpResponse.User_Type,
-          httpResponse.User_Image,
-          httpResponse.User_Creation_Date,
-          httpResponse.User_Agree);
+          id : httpResponse.User_ID,
+          pw : httpResponse.User_PW,
+          name : httpResponse.User_Name,
+          email: httpResponse.User_Email,
+          birthday : httpResponse.User_Birthday,
+          type : httpResponse.User_Type,
+          image : httpResponse.User_Image,
+          creation_date : httpResponse.User_Creation_Date,
+          agree : httpResponse.User_Agree);
       ID_Controller.clear();
       PW_Controller.clear();
       Navigator.of(context).pushReplacementNamed("/Main_MenuPage");

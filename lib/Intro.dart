@@ -46,15 +46,15 @@ class _IntroPageState extends State<IntroPage> {
       setState(() {
         if(response_){
           user = User(
-              httpResponse.User_ID,
-              httpResponse.User_PW,
-              httpResponse.User_Name,
-              httpResponse.User_Email,
-              httpResponse.User_Birthday,
-              httpResponse.User_Type,
-              httpResponse.User_Image,
-              httpResponse.User_Creation_Date,
-              httpResponse.User_Agree);
+              id : httpResponse.User_ID,
+              pw : httpResponse.User_PW,
+              name : httpResponse.User_Name,
+              email: httpResponse.User_Email,
+              birthday : httpResponse.User_Birthday,
+              type : httpResponse.User_Type,
+              image : httpResponse.User_Image,
+              creation_date : httpResponse.User_Creation_Date,
+              agree : httpResponse.User_Agree);
           Timer(Duration(seconds: 3), () => Navigator.of(context).pushReplacementNamed("/Main_MenuPage"));
         }else{
           Timer(Duration(seconds: 3), () => Navigator.of(context).pushReplacementNamed("/LoginPage"));
