@@ -1,10 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:exmaple/LeeChat/Config.dart';
-import 'package:exmaple/LeeChat/Direction.dart';
 import 'package:exmaple/LeeChat/Message.dart';
-import 'package:exmaple/LeeChat/MessageInput.dart';
 import 'package:exmaple/LeeChat/MessageList.dart';
 import 'package:exmaple/User.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +12,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/io.dart';
+
+import 'MessageInput.dart';
 class LeeChatPage extends StatefulWidget {
   @override
   _LeeChatPageState createState() => _LeeChatPageState();
@@ -23,6 +22,10 @@ class LeeChatPage extends StatefulWidget {
 class _LeeChatPageState extends State<LeeChatPage> {
 
   File _image;
+  Color _color;
+  DateTime time;
+  String now_time;
+  User user = User.instance();
   final image_picker = ImagePicker();
   IOWebSocketChannel channel;
   Config config = Config();
@@ -45,15 +48,9 @@ class _LeeChatPageState extends State<LeeChatPage> {
     });
   }
 
- // User user = User.instace;
-
-  soket_Connect() async {
-    channel = IOWebSocketChannel.connect(config.socket_conncet_URL);
-    channel.sink.add('연결');
-  }
-
   @override
   void initState() {
+    time = DateTime.now();
     icon = Icon(Icons.add);
     _icon = false;
     super.initState();
@@ -66,29 +63,34 @@ class _LeeChatPageState extends State<LeeChatPage> {
     channel.sink.close();
   }
 
+  soket_Connect() async {
+    channel = IOWebSocketChannel.connect(config.socket_conncet_URL);
+    now_time = DateFormat('yyyy-MM-dd–kk:mm').format(time);
+    Message message = Message(id: user.id, name: user.name, message: user.name+'님이 연결하셨습니다.', time: now_time, image: user.image, direction: 0);
+    var toJson = json.encode(message);
+    channel.sink.add(toJson);
+  }
+
   @override
   void deactivate() {
     super.deactivate();
-    channel.sink.add("나감");
+    now_time = DateFormat('yyyy-MM-dd–kk:mm').format(time);
+    Message message = Message(id: user.id, name: user.name, message: user.name+'님이 퇴장하셨습니다.', time: now_time, image: user.image, direction: 0);
+    var toJson = json.encode(message);
+    channel.sink.add(toJson);
     channel.sink.close();
   }
   void _sendMessage(){
     //final User user = Provider.of<User>(context);
-    final message = _message_Controller.value.text;
-    User user = User.instance();
-    DateTime time = DateTime.now();
-    String now_time = DateFormat('yyyy-MM-dd–kk:mm').format(time);
-    Message messageItem = Message(id: user.id, name: user.name, message: message, time: now_time, image: user.image, direction: 2);
-    if(message.isNotEmpty){
-      channel.sink.add(messageItem);
+    final _message = _message_Controller.value.text;
+    now_time = DateFormat('yyyy-MM-dd–kk:mm').format(time);
+    Message message = Message(id: user.id, name: user.name, message: _message, time: now_time, image: user.image, direction: 1);
+    if(_message.isNotEmpty){
+      var toJson = json.encode(message);
+      messages.add(message);
+      channel.sink.add(toJson);
       _message_Controller.clear();
-      print(messageItem);
     }
- //   messages.add(message);
-//    DateTime time = DateTime.now();
-//    String formattedDate = DateFormat('yyyy-MM-dd–kk:mm').format(time);
-//    print(time);
-    //final Message messageitem = Message(id : Uuid().v1(), name : user.name, message : message, time : time, );
   }
 
   void _plus_optcion(){
@@ -137,12 +139,11 @@ class _LeeChatPageState extends State<LeeChatPage> {
       ),
     ];
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       body: Container(
       child: Column(
         children: <Widget>[
           Expanded(
-            flex: 10,
+            flex: 13,
             child: StreamBuilder(
               stream: channel.stream,
               builder: (context, snapshot) {
@@ -151,14 +152,20 @@ class _LeeChatPageState extends State<LeeChatPage> {
                     child: Text(snapshot.error.toString()),
                   );
                 }
-                if (snapshot.data == null || messages.length == 0) {
+                if (snapshot.data == null) {
                   return Center(
                     child: Text("메세지가 없습니다.\n먼저 메세지를 보내보세요!"),
                   );
                 } else {
                   var message = snapshot.data;
-                  //    messages.add(message);
-                  print(message);
+                  Message message_Item = Message.fromJson(json.decode(message));
+                  if(message_Item.id != user.id){
+                    messages.add(message_Item);
+                    print("message_add");
+                  }
+                  print(message_Item.id);
+              //    Message messageItem = Message.fromJson(json.decode(message));
+            //      print(messageItem);
                 }
                 return MessageList(
                   messages: messages,
@@ -166,13 +173,14 @@ class _LeeChatPageState extends State<LeeChatPage> {
               },
             ),
           ),
-          Expanded(
-            child: MessageInput(
-              message_Controller: _message_Controller,
-              Message_send_onPressed: _sendMessage,
-              plus_onPressed: _plus_optcion,
-              icon: icon,
-            ),
+          SizedBox(
+              height: 50,
+              child: MessageInput(
+                message_Controller: _message_Controller,
+                Message_send_onPressed: _sendMessage,
+                plus_onPressed: _plus_optcion,
+                icon: icon,
+              ),
           ),
           _icon
               ? AnimatedContainer(

@@ -6,10 +6,10 @@ class User{
   static User sign;
 
   User({this.id, this.pw, this.name, this.email, this.birthday, this.type, this.image,this.creation_date, this.agree}){
-    if(sign == null){
-      sign = this;
-    }
+    sign = this;
   }
+
+  User.Reset({this.id, this.pw, this.name, this.email, this.birthday, this.type, this.image,this.creation_date, this.agree});
 
   factory User.instance() => sign;
 

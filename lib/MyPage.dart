@@ -1,3 +1,4 @@
+import 'package:exmaple/User.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,11 +23,13 @@ class _MyPageState extends State<MyPage> {
                     border: Border.all(color: Colors.lightBlueAccent, width: 2),
                   ),
                   child: RaisedButton(
+                    color: Colors.white,
                     child: Text("로그아웃"),
                     onPressed: () async {
                       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
                       sharedPreferences.remove("User_ID");
                       sharedPreferences.remove("User_PW");
+                      User.Reset();
                       Navigator.of(context).pushReplacementNamed("/LoginPage");
                     },
                   ),

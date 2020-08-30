@@ -8,6 +8,7 @@ class MessageItem extends StatelessWidget {
 
   final Message message;
   final Direction decoration = Direction();
+  bool _bool;
   MessageItem({@required this.message});
 
   @override
@@ -15,10 +16,13 @@ class MessageItem extends StatelessWidget {
     Alignment alignment;
     if(message.direction == decoration.RIGHT){
       alignment = Alignment.topRight;
+      _bool = true;
     }else if(message.direction == decoration.LEFT){
       alignment = Alignment.topLeft;
+      _bool = true;
     }else if(message.direction == decoration.CENTER){
       alignment = Alignment.topCenter;
+      _bool = false;
     }
     return Align(
       alignment: alignment,
@@ -26,11 +30,11 @@ class MessageItem extends StatelessWidget {
         backgroundColor: Colors.white,
         label: Text(message.message),
         padding: EdgeInsets.all(4),
-        avatar: CircleAvatar(
+        avatar: _bool ? CircleAvatar(
           backgroundColor: Colors.white,
           radius: 100,
           backgroundImage: NetworkImage(message.image),
-        ),
+        ) : Container(),
       ),
     );
   }

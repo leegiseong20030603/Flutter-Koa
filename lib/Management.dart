@@ -19,12 +19,20 @@ class _ManagerPageState extends State<ManagementPage> {
                 "Management",
                 style: TextStyle(fontSize: 50),
               ),
-              RaisedButton(
-                child: Text("LeeChat"),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LeeChatPage()));
+              Container(
+                height: 50,
+                width: 300,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey, width: 1),
+                ),
+                child: RaisedButton(
+                  color: Colors.white,
+                  child: Text("LeeChat"),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LeeChatPage()));
                   },
+                ),
               ),
               RaisedButton(
                 child: Text("현재 시간"),

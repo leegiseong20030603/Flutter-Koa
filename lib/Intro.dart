@@ -73,7 +73,7 @@ class _IntroPageState extends State<IntroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("Loding....." ,style: TextStyle(fontSize: 60),),
+        child: Image(image: NetworkImage("http://leegiseong.kro.kr/phps/User_Images/basic_image.png"),)
       ),
     );
   }

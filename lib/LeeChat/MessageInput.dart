@@ -24,6 +24,7 @@ class _MessageInputState extends State<MessageInput> {
     return Scaffold(
       key: this._scafflodKey,
       body: SizedBox(
+        height: 100,
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black12, width: 1),
