@@ -15,26 +15,31 @@ class MessageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Alignment alignment;
     if(message.direction == decoration.RIGHT){
-      alignment = Alignment.topRight;
+      alignment = Alignment.centerRight;
       _bool = true;
     }else if(message.direction == decoration.LEFT){
-      alignment = Alignment.topLeft;
+      alignment = Alignment.centerLeft;
       _bool = true;
     }else if(message.direction == decoration.CENTER){
-      alignment = Alignment.topCenter;
+      alignment = Alignment.center;
       _bool = false;
     }
-    return Align(
+    return Container(
       alignment: alignment,
-      child: Chip(
-        backgroundColor: Colors.white,
-        label: Text(message.message),
-        padding: EdgeInsets.all(4),
-        avatar: _bool ? CircleAvatar(
-          backgroundColor: Colors.white,
-          radius: 100,
-          backgroundImage: NetworkImage(message.image),
-        ) : Container(),
+      child: Column(
+        children: <Widget>[
+          _bool ? Text(message.name) : Container(child: null,),
+          Chip(
+            backgroundColor: Colors.white,
+            label: Text(message.message),
+            padding: EdgeInsets.all(4),
+            avatar: _bool ? CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 100,
+              backgroundImage: NetworkImage(message.image),
+            ) : null,
+          ),
+        ],
       ),
     );
   }

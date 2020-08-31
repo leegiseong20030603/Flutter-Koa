@@ -66,7 +66,7 @@ class _LeeChatPageState extends State<LeeChatPage> {
   soket_Connect() async {
     channel = IOWebSocketChannel.connect(config.socket_conncet_URL);
     now_time = DateFormat('yyyy-MM-dd–kk:mm').format(time);
-    Message message = Message(id: user.id, name: user.name, message: user.name+'님이 연결하셨습니다.', time: now_time, image: user.image, direction: 0);
+    Message message = Message(id: user.id, name: user.name, message: user.name+'님이 입장하셨습니다.', time: now_time, image: user.image, direction: 0);
     var toJson = json.encode(message);
     channel.sink.add(toJson);
   }
