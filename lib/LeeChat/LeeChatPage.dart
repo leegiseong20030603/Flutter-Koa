@@ -34,10 +34,13 @@ class _LeeChatPageState extends State<LeeChatPage> {
   bool _icon;
   Icon icon;
 
-  Future gallery_getImage() async {
+  Future sendImage() async {
     final pick_File = await image_picker.getImage(source: ImageSource.gallery);
     setState(() {
       _image = File(pick_File.path);
+      Message message = Message(id: user.id, name: user.name, message: _image.toString(), time: now_time, image: user.image, direction: 1 );
+      var toJson = json.encode(message);
+      channel.sink.add(toJson);
     });
   }
 
@@ -66,7 +69,7 @@ class _LeeChatPageState extends State<LeeChatPage> {
   soket_Connect() async {
     channel = IOWebSocketChannel.connect(config.socket_conncet_URL);
     now_time = DateFormat('yyyy-MM-dd–kk:mm').format(time);
-    Message message = Message(id: user.id, name: user.name, message: user.name+'님이 입장하셨습니다.', time: now_time, image: user.image, direction: 0);
+    Message message = Message(id: user.id, name: user.name, message: 'connect', time: now_time, image: user.image, direction: 0);
     var toJson = json.encode(message);
     channel.sink.add(toJson);
   }
@@ -75,7 +78,7 @@ class _LeeChatPageState extends State<LeeChatPage> {
   void deactivate() {
     super.deactivate();
     now_time = DateFormat('yyyy-MM-dd–kk:mm').format(time);
-    Message message = Message(id: user.id, name: user.name, message: user.name+'님이 퇴장하셨습니다.', time: now_time, image: user.image, direction: 0);
+    Message message = Message(id: user.id, name: user.name, message: 'close', time: now_time, image: user.image, direction: 0);
     var toJson = json.encode(message);
     channel.sink.add(toJson);
     channel.sink.close();
@@ -158,12 +161,11 @@ class _LeeChatPageState extends State<LeeChatPage> {
                   );
                 } else {
                   var message = snapshot.data;
+                  print(message);
                   Message message_Item = Message.fromJson(json.decode(message));
                   if(message_Item.id != user.id){
                     messages.add(message_Item);
-                    print("message_add");
                   }
-                  print(message_Item.id);
               //    Message messageItem = Message.fromJson(json.decode(message));
             //      print(messageItem);
                 }
@@ -198,7 +200,7 @@ class _LeeChatPageState extends State<LeeChatPage> {
                               onSelectedItem: (item) {
                                 switch(item){
                                   case 0:{
-                                    gallery_getImage();
+                                    sendImage();
                                     break;
                                   }
                                   case 1:{
