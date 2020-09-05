@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:exmaple/HttpResponse.dart';
 import 'package:exmaple/LeeChat/Config.dart';
 import 'package:exmaple/LeeChat/Message.dart';
 import 'package:exmaple/LeeChat/MessageList.dart';
@@ -11,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/io.dart';
 
 import 'MessageInput.dart';
@@ -21,7 +23,8 @@ class LeeChatPage extends StatefulWidget {
 
 class _LeeChatPageState extends State<LeeChatPage> {
 
-  File _image;
+  File file;
+  String base64Image;
   Color _color;
   DateTime time;
   String now_time;
@@ -34,20 +37,54 @@ class _LeeChatPageState extends State<LeeChatPage> {
   bool _icon;
   Icon icon;
 
-  Future sendImage() async {
-    final pick_File = await image_picker.getImage(source: ImageSource.gallery);
+  Future sendGalleryImage() async{
+    final pick_image = await image_picker.getImage(source: ImageSource.gallery);
     setState(() {
-      _image = File(pick_File.path);
-      Message message = Message(id: user.id, name: user.name, message: _image.toString(), time: now_time, image: user.image, direction: 1 );
-      var toJson = json.encode(message);
-      channel.sink.add(toJson);
+      file = File(pick_image.path);
+   //   base64Image = base64Encode(file.readAsBytesSync());
     });
+    String fileName = file.path.split("/").last;
+    if(file != null){
+      String URL = Config().URL+"test_file_upload.php";
+      String PATH = Config().PATH+"User\\"+user.id+"\\";
+      print("Server upload image Config URL : "+ URL);
+      print("Server Image upload PATH : "+ PATH);
+      print("base64Image : " + base64Image);
+  //    print("Image : " + file.toString());
+      Map<String,dynamic> imageMap = {
+        "path" : PATH,
+        "imageName" : fileName,
+        "base64Image" : base64Image,
+      };
+      http.Response http_post = await http.post(
+        URL,
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: imageMap,
+        encoding: Encoding.getByName("utf-8"),
+      );
+      print(http_post.body);
+ //     final response = HttpResponse.fromJson(json.decode(http_post.body));
+     // print("ImageUpload : "+response.Response.toString());
+      // if(response.Response){
+      //   String imagePath = URL+user.id+"/"+fileName;
+      //   print(imagePath);
+      //   now_time = DateFormat('yyyy-MM-dd–kk:mm').format(time);
+      //   Message message = Message(id: user.id, name: user.name, message: imagePath, time: now_time, direction: 1, image: user.image);
+      //   var toJson = json.encode(message);
+      //   channel.sink.add(toJson);
+      // }
+    }else{
+      print("######### ERROR ########\nimageFile # NullPoint\n ###################");
+    }
   }
 
   Future start_camera() async {
-    final pick_File = await image_picker.getImage(source: ImageSource.camera);
+    final image = await image_picker.getImage(source: ImageSource.camera);
     setState(() {
-      _image = File(pick_File.path);
+      file = File(image.path);
     });
   }
 
@@ -56,6 +93,7 @@ class _LeeChatPageState extends State<LeeChatPage> {
     time = DateTime.now();
     icon = Icon(Icons.add);
     _icon = false;
+    file = null;
     super.initState();
     soket_Connect();
   }
@@ -200,7 +238,7 @@ class _LeeChatPageState extends State<LeeChatPage> {
                               onSelectedItem: (item) {
                                 switch(item){
                                   case 0:{
-                                    sendImage();
+                                    sendGalleryImage();
                                     break;
                                   }
                                   case 1:{

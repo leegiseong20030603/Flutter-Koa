@@ -8,12 +8,17 @@ class MessageItem extends StatelessWidget {
 
   final Message message;
   final Direction decoration = Direction();
-  bool _bool;
+  bool _bool, message_Type;
   MessageItem({@required this.message});
 
   @override
   Widget build(BuildContext context) {
     Alignment alignment;
+    if(message.type == "message"){
+      message_Type = true;
+    }else{
+      message_Type = false;
+    }
     if(message.direction == decoration.RIGHT){
       alignment = Alignment.centerRight;
       _bool = true;
@@ -29,7 +34,7 @@ class MessageItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           _bool ? Text(message.name) : Container(child: null,),
-          Chip(
+          message_Type ? Chip(
             backgroundColor: Colors.white,
             label: Text(message.message),
             padding: EdgeInsets.all(4),
@@ -38,7 +43,7 @@ class MessageItem extends StatelessWidget {
               radius: 100,
               backgroundImage: NetworkImage(message.image),
             ) : null,
-          ),
+          ) : Image.network(message.image),
         ],
       ),
     );
