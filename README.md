@@ -1,4 +1,4 @@
-# exmaple
+# LeeChat
 
 A new Flutter application.
 
