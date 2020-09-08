@@ -2,7 +2,6 @@ import 'package:exmaple/LeeChat/Direction.dart';
 import 'package:exmaple/LeeChat/Message.dart';
 import 'package:exmaple/User.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class MessageItem extends StatelessWidget {
 

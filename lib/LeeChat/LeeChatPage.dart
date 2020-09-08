@@ -1,5 +1,6 @@
-import 'dart:convert';
+import'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:exmaple/HttpResponse.dart';
 import 'package:exmaple/LeeChat/Config.dart';
 import 'package:exmaple/LeeChat/Message.dart';
@@ -8,14 +9,14 @@ import 'package:exmaple/User.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_card_pager/card_item.dart';
 import 'package:horizontal_card_pager/horizontal_card_pager.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:web_socket_channel/io.dart';
-
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'MessageInput.dart';
+
 class LeeChatPage extends StatefulWidget {
   @override
   _LeeChatPageState createState() => _LeeChatPageState();
@@ -41,44 +42,41 @@ class _LeeChatPageState extends State<LeeChatPage> {
     final pick_image = await image_picker.getImage(source: ImageSource.gallery);
     setState(() {
       file = File(pick_image.path);
-   //   base64Image = base64Encode(file.readAsBytesSync());
+      print("Choose File Type : " + file.statSync().type.toString());
+      print("Choose File Size : " + file.statSync().size.toString());
+      print("Choose File Mode : " + file.statSync().modeString());
     });
-    String fileName = file.path.split("/").last;
-    if(file != null){
-      String URL = Config().URL+"test_file_upload.php";
-      String PATH = Config().PATH+"User\\"+user.id+"\\";
-      print("Server upload image Config URL : "+ URL);
-      print("Server Image upload PATH : "+ PATH);
-      print("base64Image : " + base64Image);
-  //    print("Image : " + file.toString());
-      Map<String,dynamic> imageMap = {
-        "path" : PATH,
-        "imageName" : fileName,
-        "base64Image" : base64Image,
-      };
-      http.Response http_post = await http.post(
-        URL,
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: imageMap,
-        encoding: Encoding.getByName("utf-8"),
-      );
-      print(http_post.body);
- //     final response = HttpResponse.fromJson(json.decode(http_post.body));
-     // print("ImageUpload : "+response.Response.toString());
-      // if(response.Response){
-      //   String imagePath = URL+user.id+"/"+fileName;
-      //   print(imagePath);
-      //   now_time = DateFormat('yyyy-MM-dd–kk:mm').format(time);
-      //   Message message = Message(id: user.id, name: user.name, message: imagePath, time: now_time, direction: 1, image: user.image);
-      //   var toJson = json.encode(message);
-      //   channel.sink.add(toJson);
-      // }
-    }else{
-      print("######### ERROR ########\nimageFile # NullPoint\n ###################");
-    }
+    String imageName = file.path.split("/").last; /// 이미지 이름
+    if(file == null) return null; /// File Null값 예외처리
+    String URL = config.URL+"test_file_upload.php"; /// 웹 URL PHP 파일 경로
+    String PATH = config.PATH+"User\\"+user.id+"\\"; /// 서버 : 사용자 디렉토리 경로
+    print("Server upload image Config URL : "+ URL);
+    print("Server Image upload PATH : "+ PATH);
+    File compressImage = await compressAndGetImage(file); /// 파일 압축
+    var postUri = Uri.parse(URL);
+    var request = new http.MultipartRequest("POST", postUri);
+    request.fields['path'] = PATH;
+    request.fields['name'] = imageName;
+    final byteData = compressImage.readAsBytesSync();
+    request.files.add(http.MultipartFile.fromBytes('image', byteData, filename: imageName ,contentType: MediaType('image', 'jpeg')));
+    request.send().then((response) {
+      if (response.statusCode == 200){
+        print(response.reasonPhrase);
+      }
+    });
+  }
+
+  Future<File> compressAndGetImage(File image) async {
+    print("#### 파일 압축 시작 #####");
+    var fileAsBytes = await image.readAsBytes();
+    await image.delete();
+    final compressImageBytes = await FlutterImageCompress.compressWithList(fileAsBytes);
+    await image.writeAsBytes(compressImageBytes);
+    print("Choose File Type : " + image.statSync().type.toString());
+    print("Choose File Mode : " + image.statSync().modeString());
+    print("Choose File Compress Size : "+image.statSync().size.toString());
+    print("#### 파일 압축 종료 #####");
+    return image;
   }
 
   Future start_camera() async {
@@ -180,6 +178,31 @@ class _LeeChatPageState extends State<LeeChatPage> {
       ),
     ];
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        leading: IconButton(icon: Icon(Icons.backspace, color: Colors.black,), onPressed: () {Navigator.pop(context);},), /// 뒤로가기 버튼
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.list, color: Colors.black,), /// 채팅방 기능등
+            onPressed: (){
+              Scaffold(
+                drawer: Drawer(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: <Widget>[
+                      RaisedButton(
+                        child: Text("테스트 1"),
+                        onPressed: () {},
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          )
+        ],
+      ),
       body: Container(
       child: Column(
         children: <Widget>[
