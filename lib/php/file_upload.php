@@ -2,7 +2,10 @@
   $response = array();
   $name = $_POST['name'];
   $path = $_POST['path'];
-  $image = $_FILES['image']["tmp_name"];
+  $image = $_FILES['image'];
+  echo "imageName : ".$name."\n";
+  echo "imagePath : ".$path."\n";
+  echo "image : ".$image."\n";
   $Path = $path.$name;
   $uploadFile = uploadedFile($path, $name);
   $response = array();
