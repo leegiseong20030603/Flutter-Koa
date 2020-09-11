@@ -54,19 +54,17 @@ class _LeeChatPageState extends State<LeeChatPage> {
     print("Server Image upload PATH : "+ PATH);
     File compressImage = await compressAndGetImage(file); /// 파일 압축
     var postUri = Uri.parse(URL);
-    var request = new http.MultipartRequest("POST", postUri);
-    request.fields['path'] = PATH;
+    var request = http.MultipartRequest("POST", postUri);
     request.fields['name'] = imageName;
-    final byteData = compressImage.readAsBytesSync();
-    request.files.add(http.MultipartFile.fromBytes('image', byteData, filename: imageName ,contentType: MediaType('image', 'jpeg')));
-    request.send().then((response) {
-      if (response.statusCode == 200){
-        print(response.reasonPhrase);
-      }
+    request.fields['path'] = PATH;
+    request.files.add(http.MultipartFile.fromBytes('file', await compressImage.readAsBytes(), contentType: MediaType('image', 'jpeg')));
+    request.send().then((response) async {
+      String a = await response.stream.bytesToString();
+      print("########## 파일 업로드 결과 ########## \n${a}\n####################################");
     });
   }
 
-  Future<File> compressAndGetImage(File image) async {
+  Future<File> compressAndGetImage(File image) async { /// 파일 압축 함수
     print("#### 파일 압축 시작 #####");
     var fileAsBytes = await image.readAsBytes();
     await image.delete();
