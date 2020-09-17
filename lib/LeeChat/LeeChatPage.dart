@@ -46,7 +46,7 @@ class _LeeChatPageState extends State<LeeChatPage> {
       print("Choose File Size : " + file.statSync().size.toString());
       print("Choose File Mode : " + file.statSync().modeString());
     });
-    String imageName = user.id+file.path.split("/").last; /// 이미지 이름
+    String imageName = user.id+"_"+DateFormat('yyyy-MM-dd–kk:mm').format(time); /// 이미지 이름
     if(file == null) return null; /// File Null값 예외처리
     String URL = config.URL+"test_file_upload.php"; /// 웹 URL PHP 파일 경로
     String PATH = config.PATH+"User\\"+user.id+"\\"; /// 서버 : 사용자 디렉토리 경로
@@ -58,7 +58,7 @@ class _LeeChatPageState extends State<LeeChatPage> {
     request.fields["path"] = PATH;
     request.files.add(await http.MultipartFile.fromPath(
         'image', compressImage.path,
-        filename: imageName,
+        filename: imageName+".jpg",
         contentType: MediaType('image', 'jpeg')));
     var requestResult = await request.send();
     var response = await http.Response.fromStream(requestResult);
